@@ -8,6 +8,10 @@ import java.io.Serial
 sealed class SduiAction
 
 @Serializable
+@SerialName("none")
+object NoneAction : SduiAction()
+
+@Serializable
 @SerialName("navigation_action")
 data class NavigationAction(
     val destination: String,
@@ -30,7 +34,7 @@ object LogoutAction : SduiAction()
 @SerialName("submit_form_action")
 data class SubmitFormAction(
     @SerialName("form_id")
-    val formId: String
+    val formId: String,
 ) : SduiAction()
 
 @Serializable
@@ -49,7 +53,7 @@ data class SduiDialog(
     @SerialName("confirm_action")
     val confirmAction: SduiAction,
     @SerialName("cancel_text")
-    val cancelText: String,
+    val cancelText: String? = null,
     @SerialName("cancel_action")
     val cancelAction: SduiAction? = null
 ) : SduiComponent()
@@ -181,6 +185,69 @@ data class SduiFormContainer(
     val children: List<SduiComponent>
 ) : SduiComponent()
 
+
+@Serializable
+data class SduiTab(
+    val title: String,
+    val children: List<SduiComponent>
+)
+
+@Serializable
+@SerialName("tab_layout")
+data class SduiTabLayout(
+    val tabs: List<SduiTab>
+) : SduiComponent()
+
+
+@Serializable
+@SerialName("history_card")
+data class SduiHistoryCard(
+    val title: String,
+    val date: String,
+    @SerialName("status_ka_prodi") val statusKaProdi: String,
+    @SerialName("status_akademik") val statusAkademik: String,
+    @SerialName("ready_date") val readyDate: String,
+    @SerialName("can_cancel") val canCancel: Boolean,
+    @SerialName("can_download") val canDownload: Boolean
+) : SduiComponent()
+
+@Serializable
+@SerialName("score_card")
+data class SduiScoreCard(
+    val title: String,
+    val date: String,
+    val score: String? = null,
+    val status: String? = null,
+    @SerialName("status_color") val statusColor: String? = null,
+    val action: SduiAction? = null
+) : SduiComponent()
+
+@Serializable
+@SerialName("accordion")
+data class SduiAccordion(
+    val title: String,
+    @SerialName("is_expanded") val isExpanded: Boolean = false, // Defaults to closed
+    val children: List<SduiComponent>
+) : SduiComponent()
+
+@Serializable
+@SerialName("dropdown_input")
+data class SduiDropdownInput(
+    val id: String,
+    val label: String,
+    val options: List<String>
+) : SduiComponent()
+
+
+@Serializable
+@SerialName("text_area_input")
+data class SduiTextAreaInput(
+    val id: String,
+    val label: String,
+    val placeholder: String? = null
+) : SduiComponent()
+
+
 @Serializable
 @SerialName("text_input")
 data class SduiTextInput(
@@ -217,3 +284,17 @@ data class SduiButton(
 data class SduiSpacer(
     val size : String = "medium"
 ): SduiComponent()
+
+@Serializable
+@SerialName("html_text")
+data class SduiHtmlText(
+    val html: String
+) : SduiComponent()
+
+@Serializable
+@SerialName("image_upload_input")
+data class SduiImageUploadInput(
+    val name: String,
+    val label: String,
+    val hint: String? = null
+) : SduiComponent()

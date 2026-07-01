@@ -1,5 +1,6 @@
 package com.ammar.studentdesk.sdui.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,7 @@ import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -30,13 +32,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ammar.studentdesk.sdui.domain.model.LogoutAction
 import com.ammar.studentdesk.sdui.domain.model.SduiAction
 import com.ammar.studentdesk.sdui.domain.model.SduiColumn
 import com.ammar.studentdesk.sdui.domain.model.SduiDialog
 import com.ammar.studentdesk.sdui.domain.model.SduiFormContainer
 import com.ammar.studentdesk.sdui.domain.model.SduiHorizontalList
 import com.ammar.studentdesk.sdui.domain.model.SduiScreen
+import com.ammar.studentdesk.sdui.domain.model.ShowDialogAction
 import com.ammar.studentdesk.sdui.domain.model.SubmitFormAction
 import com.ammar.studentdesk.sdui.presentation.registry.UiComponentRenderer
 
@@ -62,7 +67,7 @@ fun SduiScreenComponent(
     }
 
     val screenActionHandler: (SduiAction) -> Unit = { action ->
-        if (action is com.ammar.studentdesk.sdui.domain.model.ShowDialogAction) {
+        if (action is ShowDialogAction) {
             action.dialog
         } else {
             onAction(action)
@@ -75,7 +80,7 @@ fun SduiScreenComponent(
             model.toolbar?.let { toolbarComponent ->
                 TopAppBar(
                     expandedHeight = 30.dp,
-                    title = { Text(text = toolbarComponent.title)},
+                    title = { Text(text = toolbarComponent.title, style = typography.titleLarge, fontWeight = FontWeight.Bold,)},
                     actions = {
                         if (toolbarComponent.showProfileIcon) {
                             IconButton(onClick = {
@@ -88,7 +93,8 @@ fun SduiScreenComponent(
                         }
                         if (toolbarComponent.showNotificationIcon) {
                             IconButton(onClick = {
-                                android.util.Log.d("SDUI_ACTION", "Notification icon clicked")
+                                Log.d("SDUI_ACTION", "Notification icon clicked")
+                                screenActionHandler(com.ammar.studentdesk.sdui.domain.model.NavigationAction("pengumuman"))
                             }) {
                                 if (toolbarComponent.notificationCount > 0) {
                                     BadgedBox(
@@ -113,14 +119,14 @@ fun SduiScreenComponent(
                         }
                         if (toolbarComponent.showLogoutIcon) {
                             IconButton(onClick = {
-                                android.util.Log.d("SDUI_ACTION", "Logout icon clicked, firing ShowDialogAction")
+                                Log.d("SDUI_ACTION", "Logout icon clicked, firing ShowDialogAction")
                                 screenActionHandler(
-                                    com.ammar.studentdesk.sdui.domain.model.ShowDialogAction(
-                                        dialog = com.ammar.studentdesk.sdui.domain.model.SduiDialog(
+                                    ShowDialogAction(
+                                        dialog = SduiDialog(
                                             title = "Keluar",
                                             message = "Anda yakin ingin keluar ?",
                                             confirmText = "Ya",
-                                            confirmAction = com.ammar.studentdesk.sdui.domain.model.LogoutAction,
+                                            confirmAction = LogoutAction,
                                             cancelText = "Tidak",
                                             cancelAction = null
                                         )
@@ -200,3 +206,4 @@ fun SduiFormContainerComponent(
         }
     }
 }
+

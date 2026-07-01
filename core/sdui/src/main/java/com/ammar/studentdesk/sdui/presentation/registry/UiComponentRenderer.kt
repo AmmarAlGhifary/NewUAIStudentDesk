@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
+import com.ammar.studentdesk.sdui.domain.model.SduiAccordion
 import com.ammar.studentdesk.sdui.domain.model.SduiAction
 import com.ammar.studentdesk.sdui.domain.model.SduiColumn
 import com.ammar.studentdesk.sdui.domain.model.SduiComponent
@@ -21,14 +22,20 @@ import com.ammar.studentdesk.sdui.domain.model.SduiScheduleCard
 import com.ammar.studentdesk.sdui.domain.model.SduiScreen
 import com.ammar.studentdesk.sdui.domain.model.SduiSectionHeader
 import com.ammar.studentdesk.sdui.domain.model.SduiWarningBanner
+import com.ammar.studentdesk.sdui.domain.model.SduiHtmlText
 import com.ammar.studentdesk.sdui.domain.model.SduiFormContainer
 import com.ammar.studentdesk.sdui.domain.model.SduiTextInput
 import com.ammar.studentdesk.sdui.domain.model.SduiDropdown
 import com.ammar.studentdesk.sdui.domain.model.SduiButton
 import com.ammar.studentdesk.sdui.domain.model.SduiCardProfileDetailed
+import com.ammar.studentdesk.sdui.domain.model.SduiDropdownInput
+import com.ammar.studentdesk.sdui.domain.model.SduiHistoryCard
 import com.ammar.studentdesk.sdui.domain.model.SduiInfoCardProfile
 import com.ammar.studentdesk.sdui.domain.model.SduiInfoCardProfileCircularRound
 import com.ammar.studentdesk.sdui.domain.model.SduiSpacer
+import com.ammar.studentdesk.sdui.domain.model.SduiTabLayout
+import com.ammar.studentdesk.sdui.domain.model.SduiTextAreaInput
+import com.ammar.studentdesk.sdui.presentation.components.SduiAccordionComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiColumnComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiEmptyStateCardComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiHorizontalListComponent
@@ -37,15 +44,20 @@ import com.ammar.studentdesk.sdui.presentation.components.SduiScheduleCardCompon
 import com.ammar.studentdesk.sdui.presentation.components.SduiScreenComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiSectionHeaderComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiWarningBannerComponent
+import com.ammar.studentdesk.sdui.presentation.components.SduiHtmlTextComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiCarouselComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiFormContainerComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiTextInputComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiDropdownComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiButtonComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiCardProfileDetailedComponent
+import com.ammar.studentdesk.sdui.presentation.components.SduiDropdownInputComponent
+import com.ammar.studentdesk.sdui.presentation.components.SduiHistoryCardComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiInfoCardProfileCircularRoundComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiInfoCardProfileComponent
 import com.ammar.studentdesk.sdui.presentation.components.SduiSpacerComponent
+import com.ammar.studentdesk.sdui.presentation.components.SduiTabLayoutComponent
+import com.ammar.studentdesk.sdui.presentation.components.SduiTextAreaInputComponent
 
 @Composable
 fun UiComponentRenderer(
@@ -69,11 +81,22 @@ fun UiComponentRenderer(
         is SduiInfoCardProfile -> SduiInfoCardProfileComponent(component, modifier, onAction)
         is SduiCardProfileDetailed -> SduiCardProfileDetailedComponent(component, modifier)
 
-        is SduiFormContainer -> SduiFormContainerComponent(component, modifier, onAction)
-        is SduiTextInput -> SduiTextInputComponent(component, modifier)
+        is SduiTabLayout -> SduiTabLayoutComponent(component, onAction)
+        is SduiHistoryCard -> SduiHistoryCardComponent(component)
+        is SduiAccordion -> SduiAccordionComponent(component, onAction)
+
         is SduiDropdown -> SduiDropdownComponent(component, modifier)
+        is SduiDropdownInput -> SduiDropdownInputComponent(component)
+
+        is SduiTextInput -> SduiTextInputComponent(component)
+        is SduiTextAreaInput -> SduiTextAreaInputComponent(component)
+
+        is SduiFormContainer -> SduiFormContainerComponent(component, modifier, onAction)
         is SduiButton -> SduiButtonComponent(component, modifier, onAction)
         is SduiSpacer -> SduiSpacerComponent(component)
+        is SduiHtmlText -> SduiHtmlTextComponent(component, modifier)
+        is com.ammar.studentdesk.sdui.domain.model.SduiImageUploadInput -> com.ammar.studentdesk.sdui.presentation.components.SduiImageUploadInputComponent(component, modifier)
+        is com.ammar.studentdesk.sdui.domain.model.SduiScoreCard -> com.ammar.studentdesk.sdui.presentation.components.SduiScoreCardComponent(component, onAction)
 
         else -> {
             Box(

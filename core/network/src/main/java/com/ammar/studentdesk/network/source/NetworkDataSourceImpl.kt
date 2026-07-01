@@ -10,7 +10,8 @@ class NetworkDataSourceImpl @Inject constructor(
 
     override fun getBlueprint(screenId: String, queryParams: Map<String, String>): Flow<Result<String>> = flow {
         try {
-            val response = apiService.getScreenBlueprint(screenId, queryParams)
+            val url = "api/$screenId"
+            val response = apiService.getScreenBlueprint(url, queryParams)
             if (response.isSuccessful && response.body() != null) {
                 val rawJson = response.body()!!.string()
                 emit(Result.success(rawJson))
