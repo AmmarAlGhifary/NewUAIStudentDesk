@@ -69,6 +69,7 @@ import coil.request.ImageRequest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import android.net.Uri
+import androidx.compose.foundation.text.selection.SelectionContainer
 import com.ammar.studentdesk.sdui.domain.model.SduiAccordion
 import com.ammar.studentdesk.sdui.domain.model.SduiAction
 import com.ammar.studentdesk.sdui.domain.model.SduiButton
@@ -305,11 +306,13 @@ fun SduiWarningBannerComponent(
                 color = colorScheme.onErrorContainer
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = model.description,
-                style = typography.bodyMedium,
-                color = colorScheme.onErrorContainer
-            )
+            SelectionContainer() {
+                Text(
+                    text = model.description,
+                    style = typography.bodyMedium,
+                    color = colorScheme.onErrorContainer
+                )
+            }
         }
     }
 }

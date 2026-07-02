@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-07-01T08:09:58.123094Z">
+        <DropdownSelection timestamp="2026-07-02T02:59:58.706371Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=/Users/a2368/.android/avd/hp_virtual_apalah_2.avd" />
