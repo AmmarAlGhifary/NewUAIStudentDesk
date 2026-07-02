@@ -1,5 +1,7 @@
 package com.ammar.studentdesk.network.di
 
+import com.ammar.studentdesk.network.BuildConfig
+
 import com.ammar.studentdesk.network.source.ApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -84,10 +86,8 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient, json: Json): Retrofit {
         val contentType = "application/json".toMediaType()
 
-        // http://10.0.2.2:30001 / 3000 for emulator
-        // http://192.168.137.40:3000 for mac/laptop pake ip
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000")
+            .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory(contentType))
             .build()
