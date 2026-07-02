@@ -57,10 +57,16 @@ fun SduiScreenComponent(
     var currentDialog by remember { mutableStateOf<SduiDialog?>(null) }
     
     currentDialog?.let { dialog ->
+        Log.d("SDUI_ACTION", "Drawing SDUI Screen for: ${dialog.title}")
         SduiDialogComponent(
             model = dialog,
-            onDismissRequest = { },
+            onDismissRequest = { 
+                Log.d("SDUI_ACTION", "Dialog dismissed")
+                currentDialog = null 
+            },
             onAction = { action ->
+                Log.d("SDUI_ACTION", "Dialog action fired")
+                currentDialog = null
                 onAction(action)
             }
         )
@@ -68,7 +74,8 @@ fun SduiScreenComponent(
 
     val screenActionHandler: (SduiAction) -> Unit = { action ->
         if (action is ShowDialogAction) {
-            action.dialog
+            Log.d("SDUI_ACTION", "Setting currentDialog state")
+            currentDialog = action.dialog
         } else {
             onAction(action)
         }
