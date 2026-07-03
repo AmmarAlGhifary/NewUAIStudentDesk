@@ -34,7 +34,7 @@ fun SduiScreenComponent(
     currentDialog?.let { dialog ->
         SduiActiveDialog(
             dialog = dialog,
-            onDismiss = { },
+            onDismiss = { currentDialog = null },
             onAction = {
                 onAction(it)
             }
@@ -43,7 +43,7 @@ fun SduiScreenComponent(
 
     val screenActionHandler: (SduiAction) -> Unit = { action ->
         if (action is ShowDialogAction) {
-            action.dialog
+            currentDialog = action.dialog
         } else {
             onAction(action)
         }
