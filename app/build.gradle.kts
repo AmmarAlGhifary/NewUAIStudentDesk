@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -32,9 +34,20 @@ android {
         }
     }
 
+    applicationVariants.all {
+        outputs.all {
+            val impl = this as? ApkVariantOutputImpl
+            val appName = "StudentDeskRevamped"
+            val versionName = versionName
+            val buildType = name
+
+            impl?.outputFileName = "${appName}-v${versionName}-${buildType}.apk"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
