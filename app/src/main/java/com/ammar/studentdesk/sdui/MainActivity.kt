@@ -141,7 +141,8 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 screenId = "home",
                                 onNavigate = { destination ->
-                                    navController.navigate("sdui/$destination")
+                                    val encoded = java.net.URLEncoder.encode(destination, "UTF-8")
+                                    navController.navigate("sdui/$encoded")
                                 },
                                 onLogout = handleLogout
                             )
@@ -150,7 +151,8 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 screenId = "jadwal",
                                 onNavigate = { destination ->
-                                    navController.navigate("sdui/$destination")
+                                    val encoded = java.net.URLEncoder.encode(destination, "UTF-8")
+                                    navController.navigate("sdui/$encoded")
                                 },
                                 onLogout = handleLogout
                             )
@@ -159,7 +161,8 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 screenId = "profile",
                                 onNavigate = { destination ->
-                                    navController.navigate("sdui/$destination")
+                                    val encoded = java.net.URLEncoder.encode(destination, "UTF-8")
+                                    navController.navigate("sdui/$encoded")
                                 },
                                 onLogout = handleLogout
                             )
@@ -170,7 +173,8 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 screenId = screenId,
                                 onNavigate = { destination ->
-                                    navController.navigate("sdui/$destination")
+                                    val encoded = java.net.URLEncoder.encode(destination, "UTF-8")
+                                    navController.navigate("sdui/$encoded")
                                 },
                                 onLogout = handleLogout
                             )

@@ -10,42 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
-import com.ammar.studentdesk.sdui.domain.model.SduiAction
-import com.ammar.studentdesk.sdui.domain.model.SduiColumn
-import com.ammar.studentdesk.sdui.domain.model.SduiComponent
-import com.ammar.studentdesk.sdui.domain.model.SduiEmptyStateCard
-import com.ammar.studentdesk.sdui.domain.model.SduiHorizontalList
-import com.ammar.studentdesk.sdui.domain.model.SduiInfoCard
-import com.ammar.studentdesk.sdui.domain.model.SduiCarousel
-import com.ammar.studentdesk.sdui.domain.model.SduiScheduleCard
-import com.ammar.studentdesk.sdui.domain.model.SduiScreen
-import com.ammar.studentdesk.sdui.domain.model.SduiSectionHeader
-import com.ammar.studentdesk.sdui.domain.model.SduiWarningBanner
-import com.ammar.studentdesk.sdui.domain.model.SduiFormContainer
-import com.ammar.studentdesk.sdui.domain.model.SduiTextInput
-import com.ammar.studentdesk.sdui.domain.model.SduiDropdown
-import com.ammar.studentdesk.sdui.domain.model.SduiButton
-import com.ammar.studentdesk.sdui.domain.model.SduiCardProfileDetailed
-import com.ammar.studentdesk.sdui.domain.model.SduiInfoCardProfile
-import com.ammar.studentdesk.sdui.domain.model.SduiInfoCardProfileCircularRound
-import com.ammar.studentdesk.sdui.domain.model.SduiSpacer
-import com.ammar.studentdesk.sdui.presentation.components.SduiColumnComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiEmptyStateCardComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiHorizontalListComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiInfoCardComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiScheduleCardComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiScreenComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiSectionHeaderComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiWarningBannerComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiCarouselComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiFormContainerComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiTextInputComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiDropdownComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiButtonComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiCardProfileDetailedComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiInfoCardProfileCircularRoundComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiInfoCardProfileComponent
-import com.ammar.studentdesk.sdui.presentation.components.SduiSpacerComponent
+import com.ammar.studentdesk.sdui.domain.model.*
+import com.ammar.studentdesk.sdui.presentation.components.*
 
 @Composable
 fun UiComponentRenderer(
@@ -53,6 +19,8 @@ fun UiComponentRenderer(
     modifier: Modifier = Modifier,
     onAction: (SduiAction) -> Unit = {}
 ) {
+    val modifier = component.modifier?.toComposeModifier(modifier) ?: modifier
+
     when (component) {
         is SduiScreen -> SduiScreenComponent(component, modifier, onAction)
         is SduiColumn -> SduiColumnComponent(component, modifier, onAction)
@@ -61,19 +29,30 @@ fun UiComponentRenderer(
         is SduiSectionHeader -> SduiSectionHeaderComponent(component, modifier)
         is SduiInfoCard -> SduiInfoCardComponent(component, modifier, onAction)
         is SduiWarningBanner -> SduiWarningBannerComponent(component, modifier, onAction)
-        is SduiScheduleCard -> SduiScheduleCardComponent(component, modifier, onAction)
+        is SduiScheduleCard -> SduiScheduleCardComponent(component, modifier)
         is SduiEmptyStateCard -> SduiEmptyStateCardComponent(component, modifier)
-        is SduiCarousel -> SduiCarouselComponent(component, onAction)
+        is SduiCarousel -> SduiCarouselComponent(component, modifier, onAction)
 
-        is SduiInfoCardProfileCircularRound -> SduiInfoCardProfileCircularRoundComponent(component)
+        is SduiInfoCardProfileCircularRound -> SduiInfoCardProfileCircularRoundComponent(component, modifier)
         is SduiInfoCardProfile -> SduiInfoCardProfileComponent(component, modifier, onAction)
         is SduiCardProfileDetailed -> SduiCardProfileDetailedComponent(component, modifier)
 
-        is SduiFormContainer -> SduiFormContainerComponent(component, modifier, onAction)
-        is SduiTextInput -> SduiTextInputComponent(component, modifier)
+        is SduiTabLayout -> SduiTabLayoutComponent(component, modifier, onAction)
+        is SduiHistoryCard -> SduiHistoryCardComponent(component, modifier, onAction)
+        is SduiAccordion -> SduiAccordionComponent(component, modifier, onAction)
+
         is SduiDropdown -> SduiDropdownComponent(component, modifier)
+        is SduiDropdownInput -> SduiDropdownInputComponent(component, modifier)
+
+        is SduiTextInput -> SduiTextInputComponent(component, modifier)
+        is SduiTextAreaInput -> SduiTextAreaInputComponent(component, modifier)
+
+        is SduiFormContainer -> SduiFormContainerComponent(component, modifier, onAction)
         is SduiButton -> SduiButtonComponent(component, modifier, onAction)
         is SduiSpacer -> SduiSpacerComponent(component)
+        is SduiHtmlText -> SduiHtmlTextComponent(component, modifier)
+        is SduiImageUploadInput -> SduiImageUploadInputComponent(component, modifier)
+        is SduiScoreCard -> SduiScoreCardComponent(component, modifier, onAction)
 
         else -> {
             Box(

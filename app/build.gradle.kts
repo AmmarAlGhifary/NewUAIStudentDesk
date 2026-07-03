@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -20,13 +22,37 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("prod") {
+            dimension = "environment"
+        }
+    }
+
+    applicationVariants.all {
+        outputs.all {
+            val impl = this as? ApkVariantOutputImpl
+            val appName = "StudentDeskRevamped"
+            val versionName = versionName
+            val buildType = name
+
+            impl?.outputFileName = "${appName}-v${versionName}-${buildType}.apk"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {

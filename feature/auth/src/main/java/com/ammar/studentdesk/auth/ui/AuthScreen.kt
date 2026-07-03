@@ -57,7 +57,7 @@ fun AuthScreen (
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(androidx.compose.material3.MaterialTheme.colorScheme.background)
+            .background(colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -124,7 +124,7 @@ fun AuthScreen (
                         .fillMaxWidth()
                         .height(50.dp)
                 ) {
-                    Text("Login", color = androidx.compose.material3.MaterialTheme.colorScheme.onPrimary)
+                    Text("Login", color = colorScheme.onPrimary)
                 }
             }
         }
@@ -140,7 +140,7 @@ fun AuthRoute(
 
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Success) {
-            val token = (uiState as AuthUiState.Success).token
+            (uiState as AuthUiState.Success).token
             onNavigateToHome()
         }
     }
