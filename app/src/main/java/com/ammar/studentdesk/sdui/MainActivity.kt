@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -30,7 +31,7 @@ import com.ammar.studentdesk.auth.ui.AuthRoute
 import com.ammar.studentdesk.designsystems.StudentDeskTheme
 import com.ammar.studentdesk.network.utils.TokenManager
 import com.ammar.studentdesk.onboarding.ui.OnboardingScreen
-import com.ammar.studentdesk.screenhost.ui.HomeScreen
+import com.ammar.studentdesk.screenhost.ui.ScreenHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -60,10 +61,11 @@ class MainActivity : ComponentActivity() {
                 val bottomNavItems = listOf(
                     Triple("home", "Beranda", Icons.Default.Home),
                     Triple("jadwal", "Jadwal", Icons.Default.DateRange),
+                    Triple("keuangan", "Keuangan", Icons.Default.Money),
                     Triple("profile", "Profil", Icons.Default.Person)
                 )
 
-                val showBottomNav = currentRoute in listOf("home", "jadwal", "profile")
+                val showBottomNav = currentRoute in listOf("home", "jadwal", "keuangan","profile")
                 Scaffold(
                     bottomBar = {
                         if (showBottomNav) {
@@ -138,7 +140,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("home") {
-                            HomeScreen(
+                            ScreenHost(
                                 screenId = "home",
                                 onNavigate = { destination ->
                                     val encoded = java.net.URLEncoder.encode(destination, "UTF-8")
@@ -148,7 +150,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("jadwal") {
-                            HomeScreen(
+                            ScreenHost(
                                 screenId = "jadwal",
                                 onNavigate = { destination ->
                                     val encoded = java.net.URLEncoder.encode(destination, "UTF-8")
@@ -157,8 +159,18 @@ class MainActivity : ComponentActivity() {
                                 onLogout = handleLogout
                             )
                         }
+                        composable("keuangan") {
+                            ScreenHost(
+                                screenId = "keuangan",
+                                onNavigate = { destination ->
+                                    val encoded = java.net.URLEncoder.encode(destination, "UTF-8")
+                                    navController.navigate("sdui/$encoded")
+                                },
+                                onLogout = handleLogout
+                            )
+                        }
                         composable("profile") {
-                            HomeScreen(
+                            ScreenHost(
                                 screenId = "profile",
                                 onNavigate = { destination ->
                                     val encoded = java.net.URLEncoder.encode(destination, "UTF-8")
@@ -170,7 +182,7 @@ class MainActivity : ComponentActivity() {
 
                         composable("sdui/{screenId}") { backStackEntry ->
                             val screenId = backStackEntry.arguments?.getString("screenId") ?: "home"
-                            HomeScreen(
+                            ScreenHost(
                                 screenId = screenId,
                                 onNavigate = { destination ->
                                     val encoded = java.net.URLEncoder.encode(destination, "UTF-8")

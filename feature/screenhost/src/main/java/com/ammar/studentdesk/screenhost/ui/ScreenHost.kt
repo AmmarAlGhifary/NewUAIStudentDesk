@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,12 +23,14 @@ import com.ammar.studentdesk.screenhost.state.ScreenHostUiState
 import com.ammar.studentdesk.screenhost.viewmodel.ScreenHostViewModel
 import com.ammar.studentdesk.sdui.domain.model.LogoutAction
 import com.ammar.studentdesk.sdui.domain.model.NavigationAction
+import com.ammar.studentdesk.sdui.domain.model.SduiEmptyStateCard
 import com.ammar.studentdesk.sdui.domain.model.SubmitFormAction
+import com.ammar.studentdesk.sdui.presentation.components.SduiEmptyStateCardComponent
 import com.ammar.studentdesk.sdui.presentation.registry.UiComponentRenderer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+fun ScreenHost(
     screenId: String,
     modifier: Modifier = Modifier,
     viewModel: ScreenHostViewModel = hiltViewModel(),
@@ -52,14 +55,14 @@ fun HomeScreen(
                 modifier = Modifier.align(Center)
             )
             is ScreenHostUiState.Error -> Box(
-                modifier = Modifier.align(Center)
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Center
             ) {
-                SelectionContainer {
-                    Text(
-                        text = "Failed to load: ${state.message}",
-                        modifier = Modifier.padding(16.dp)
+                SduiEmptyStateCardComponent(
+                    model = SduiEmptyStateCard(
+                        message = "Terjadi Kesalahan:\n${state.message}"
                     )
-                }
+                )
             }
             is ScreenHostUiState.Success -> UiComponentRenderer(
                 component = state.screen,
