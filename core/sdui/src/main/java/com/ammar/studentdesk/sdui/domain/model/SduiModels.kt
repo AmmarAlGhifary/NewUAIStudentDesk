@@ -355,7 +355,13 @@ data class SduiPadding(
     val top: Int? = null,
     val end: Int? = null,
     val bottom: Int? = null
-)
+) {
+    val resolvedStart: Int get() = start ?: horizontal ?: all ?: 0
+    val resolvedTop: Int get() = top ?: vertical ?: all ?: 0
+    val resolvedEnd: Int get() = end ?: horizontal ?: all ?: 0
+    val resolvedBottom: Int get() = bottom ?: vertical ?: all ?: 0
+}
+
 
 @Serializable
 data class SduiSize(

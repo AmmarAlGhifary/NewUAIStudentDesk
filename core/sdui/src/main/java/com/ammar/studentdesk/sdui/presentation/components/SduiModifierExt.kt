@@ -26,10 +26,10 @@ fun SduiModifier.toComposeModifier(baseModifier: Modifier = Modifier): Modifier 
     // 1. MARGIN (Outer Spacing)
     margin?.let {
         mod = mod.padding(
-            start = (it.start ?: it.horizontal ?: it.all ?: 0).dp,
-            top = (it.top ?: it.vertical ?: it.all ?: 0).dp,
-            end = (it.end ?: it.horizontal ?: it.all ?: 0).dp,
-            bottom = (it.bottom ?: it.vertical ?: it.all ?: 0).dp
+            start = it.resolvedStart.dp,
+            top = it.resolvedTop.dp,
+            end = it.resolvedEnd.dp,
+            bottom = it.resolvedBottom.dp
         )
     }
 
@@ -88,10 +88,10 @@ fun SduiModifier.toComposeModifier(baseModifier: Modifier = Modifier): Modifier 
     // 7. PADDING (Inner Spacing)
     padding?.let {
         mod = mod.padding(
-            start = (it.start ?: it.horizontal ?: it.all ?: 0).dp,
-            top = (it.top ?: it.vertical ?: it.all ?: 0).dp,
-            end = (it.end ?: it.horizontal ?: it.all ?: 0).dp,
-            bottom = (it.bottom ?: it.vertical ?: it.all ?: 0).dp
+            start = it.resolvedStart.dp,
+            top = it.resolvedTop.dp,
+            end = it.resolvedEnd.dp,
+            bottom = it.resolvedBottom.dp
         )
     }
 

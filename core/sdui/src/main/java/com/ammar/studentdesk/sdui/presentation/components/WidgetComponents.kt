@@ -1,6 +1,5 @@
 package com.ammar.studentdesk.sdui.presentation.components
 
-import android.graphics.Color.parseColor
 import android.net.Uri
 import android.widget.TextView
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.*
@@ -37,7 +37,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.ammar.studentdesk.sdui.domain.model.*
 import com.ammar.studentdesk.sdui.presentation.registry.UiComponentRenderer
-import com.ammar.studentdesk.sdui.presentation.utils.toColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -180,7 +179,7 @@ fun SduiTabLayoutComponent(model: SduiTabLayout, modifier: Modifier = Modifier, 
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = modifier) {
-        TabRow(selectedTabIndex = pagerState.currentPage) {
+        PrimaryTabRow(selectedTabIndex = pagerState.currentPage) {
             model.tabs.forEachIndexed { index, tab ->
                 Tab(
                     selected = pagerState.currentPage == index,
@@ -205,7 +204,11 @@ fun SduiHistoryCardComponent(model: SduiHistoryCard, modifier: Modifier = Modifi
         Text(text = model.title, style = typography.titleMedium, fontWeight = Bold)
         Text(text = model.dateText, style = typography.bodyMedium)
 
-        Divider(modifier = Modifier.padding(vertical = 8.dp))
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = 8.dp),
+            thickness = DividerDefaults.Thickness,
+            color = DividerDefaults.color
+        )
 
         Text(text = model.prodiText, style = typography.bodySmall)
         Text(text = model.akademikText, style = typography.bodySmall)
@@ -318,7 +321,9 @@ fun SduiDropdownComponent(model: SduiDropdown, modifier: Modifier = Modifier) {
             label = { Text(model.label) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
-            modifier = Modifier.menuAnchor().fillMaxWidth()
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true)
+                .fillMaxWidth()
         )
         ExposedDropdownMenu(
             expanded = expanded,
@@ -354,7 +359,9 @@ fun SduiDropdownInputComponent(model: SduiDropdownInput, modifier: Modifier = Mo
             readOnly = true,
             label = { Text(model.label) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = Modifier.menuAnchor().fillMaxWidth()
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, enabled = true)
+                .fillMaxWidth()
         )
         ExposedDropdownMenu(
             expanded = expanded,
